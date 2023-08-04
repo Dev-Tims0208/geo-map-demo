@@ -18,6 +18,11 @@ namespace GeomappingDemo.Controllers
             return View();
         }
 
+        public IActionResult Maps()
+        {
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();
