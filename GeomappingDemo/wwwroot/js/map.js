@@ -15,11 +15,10 @@ var tiles = new L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
     minZoom: '15'
 }).addTo(map);
 
-var polygon = L.polygon([
-    [9.783427, 118.732006],
-    [9.783075, 118.74193],
-    [9.778508, 118.735278]
-]).addTo(map);
+var arr = [
+];
+
+var polygon = L.polygon(arr).addTo(map);
 
 var marker = L.marker(
     [9.783427, 118.732006],
@@ -39,6 +38,9 @@ function onMapClick(e) {
     popup.setLatLng(e.latlng).setContent(e.latlng.toString()).openOn(map);
     // set marker
     marker.setLatLng(e.latlng);
+    arr.push(e.latlng);
+    polygon.remove();
+    polygon = L.polygon(arr).addTo(map);
 }
 
 map.on('click', onMapClick);
