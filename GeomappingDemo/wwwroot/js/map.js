@@ -15,8 +15,7 @@ var tiles = new L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
     minZoom: '15'
 }).addTo(map);
 
-var arr = [
-];
+var arr = [];
 
 var polygon = L.polygon(arr).addTo(map);
 
@@ -41,6 +40,7 @@ function onMapClick(e) {
     arr.push(e.latlng);
     polygon.remove();
     polygon = L.polygon(arr).addTo(map);
+    $('#post').find('#Coordinates').val(arr);
 }
 
 map.on('click', onMapClick);

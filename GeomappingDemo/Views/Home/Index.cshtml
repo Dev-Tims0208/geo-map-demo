@@ -6,3 +6,84 @@
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+<div class="container-fluid">
+    <div class="row">
+        <form action="" id="post">
+            <div class="mb-3">
+                <label for="LocationName" class="form-label">Location Name</label>
+                <input type="text" class="form-control" name="locationName" id="LocationName" aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+                <label for="Coordinates" class="form-label">Coordinates</label>
+                <input type="text" class="form-control" name="coordinates" id="Coordinates" aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+                <button id="post" class="btn btn-primary btn-sm">Save</button>
+            </div>
+        </form>
+    </div>
+    <div class="row">
+        <table id="propsTable" class="table table-hover">
+            <thead>
+            <th>Location</th>
+            <th>Coordinates</th>
+            <th>Action</th>
+            </thead> 
+            <tbody>
+                
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $(window).ready(function(){
+
+            // ajax get
+            var propsTable = $('#propsTable').DataTable({
+                ajax: { 
+                    type: 'GET',
+                    url: '/api/fetch/property',
+                    dataSrc: ''
+                },
+                columns: [ 
+                    {
+                        data: "locationName"
+                    },
+                    {
+                        data: "coordinates"
+                    },
+                    {
+                        data: null,
+                        render: function(){
+                            return '<button class="btn btn-success btn-md">Edit</button>'
+                        }
+                    }
+                ]
+            })
+                
+            $("#post").submit(function (e) { 
+                e.preventDefault();
+                var locationName = $("#LocationName").val();
+                var coordinates = $("#Coordinates").val();
+                $.ajax({
+                    url: "/api/post/propertysave",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",  
+                    data: JSON.stringify({
+                        locationName: locationName,
+                        coordinates: coordinates
+                    }),
+                    success: function (data) {
+                        console.log(data);
+                        if(data == '200'){ 
+                            propsTable.ajax.reload();
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}
