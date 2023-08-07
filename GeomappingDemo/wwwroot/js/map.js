@@ -37,10 +37,15 @@ function onMapClick(e) {
     popup.setLatLng(e.latlng).setContent(e.latlng.toString()).openOn(map);
     // set marker
     marker.setLatLng(e.latlng);
+    console.log(e.latlng);
     arr.push(e.latlng);
     polygon.remove();
-    polygon = L.polygon(arr).addTo(map);
-    $('#post').find('#Coordinates').val(arr);
+    //polygon = L.polygon(arr).addTo(map);
+    var json = JSON.stringify(arr.map(a => [a.lat, a.lng]));
+
+    $('#post').find('#Coordinates').val(json);
+
+    polygon = L.polygon(JSON.parse(json)).addTo(map);
 }
 
 map.on('click', onMapClick);
