@@ -26,6 +26,17 @@ namespace GeomappingDemo.Controllers.API
             return map.Map<List<FetchPropertyDTO>>(entities);
         }
 
+        [HttpGet("property/{id}")]
+        public async Task<ActionResult<FetchPropertyDTO>> Get(int id)
+        {
+            var entity = await ctx.Properties.FindAsync(id);
+            if (entity == null)
+            {
+                return NotFound();
+            }
+            return map.Map<FetchPropertyDTO>(entity);
+        }
+
 
 
     }
